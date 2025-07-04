@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Book, ShoppingCart, User, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -16,33 +15,46 @@ const Header = ({ cartItems }: HeaderProps) => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <Book className="text-white" size={24} />
-            </div>
+            <img src="/logo-web.png" alt="Logo Kustom" className="w-10 h-10" />
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              BookStore
+              AdrRead
             </span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link
+              to="/"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+            >
               Beranda
             </Link>
-            <Link to="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link
+              to="/about"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+            >
               Tentang Kami
             </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link
+              to="/contact"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+            >
               Kontak
             </Link>
-            <Link to="/admin" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link
+              to="/admin"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+            >
               Admin
             </Link>
           </nav>
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
-            <Link to="/cart" className="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
+            <Link
+              to="/cart"
+              className="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"
+            >
               <ShoppingCart size={24} />
               {cartItems > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -50,8 +62,11 @@ const Header = ({ cartItems }: HeaderProps) => {
                 </span>
               )}
             </Link>
-            
-            <Link to="/login" className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all">
+
+            <Link
+              to="/login"
+              className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all"
+            >
               <User size={20} />
               <span className="hidden sm:inline">Masuk</span>
             </Link>
@@ -70,16 +85,28 @@ const Header = ({ cartItems }: HeaderProps) => {
         {isMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 border-t border-gray-200">
             <div className="flex flex-col space-y-2 pt-4">
-              <Link to="/" className="text-gray-700 hover:text-blue-600 transition-colors py-2">
+              <Link
+                to="/"
+                className="text-gray-700 hover:text-blue-600 transition-colors py-2"
+              >
                 Beranda
               </Link>
-              <Link to="/about" className="text-gray-700 hover:text-blue-600 transition-colors py-2">
+              <Link
+                to="/about"
+                className="text-gray-700 hover:text-blue-600 transition-colors py-2"
+              >
                 Tentang Kami
               </Link>
-              <Link to="/contact" className="text-gray-700 hover:text-blue-600 transition-colors py-2">
+              <Link
+                to="/contact"
+                className="text-gray-700 hover:text-blue-600 transition-colors py-2"
+              >
                 Kontak
               </Link>
-              <Link to="/admin" className="text-gray-700 hover:text-blue-600 transition-colors py-2">
+              <Link
+                to="/admin"
+                className="text-gray-700 hover:text-blue-600 transition-colors py-2"
+              >
                 Admin
               </Link>
             </div>
