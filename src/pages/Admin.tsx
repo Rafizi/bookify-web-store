@@ -1,14 +1,17 @@
-
 import { useState } from "react";
 import { Book, Users, ShoppingBag, Plus, Edit, Trash2, Eye } from "lucide-react";
 import Header from "@/components/Header";
 import AddUserDialog from "@/components/AddUserDialog";
 import EditUserDialog from "@/components/EditUserDialog";
+import AddBookDialog from "@/components/AddBookDialog";
+import EditBookDialog from "@/components/EditBookDialog";
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [editingUser, setEditingUser] = useState(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingBook, setEditingBook] = useState(null);
+  const [editBookDialogOpen, setEditBookDialogOpen] = useState(false);
   
   // Sample data
   const stats = {
@@ -18,11 +21,11 @@ const Admin = () => {
     revenue: 15750000
   };
 
-  const books = [
+  const [books, setBooks] = useState([
     { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", category: "Fiction", price: 125000, stock: 25 },
     { id: 2, title: "JavaScript Guide", author: "David Flanagan", category: "Technology", price: 350000, stock: 12 },
     { id: 3, title: "Sapiens", author: "Yuval Noah Harari", category: "History", price: 200000, stock: 8 }
-  ];
+  ]);
 
   const [users, setUsers] = useState([
     { id: 1, name: "John Doe", email: "john@example.com", registeredAt: "2024-01-15", status: "Active" },
@@ -55,6 +58,19 @@ const Admin = () => {
 
   const handleUpdateUser = (updatedUser: any) => {
     setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
+  };
+
+  const handleAddBook = (newBook: any) => {
+    setBooks([...books, newBook]);
+  };
+
+  const handleEditBook = (book: any) => {
+    setEditingBook(book);
+    setEditBookDialogOpen(true);
+  };
+
+  const handleUpdateBook = (updatedBook: any) => {
+    setBooks(books.map(book => book.id === updatedBook.id ? updatedBook : book));
   };
 
   return (
@@ -168,10 +184,7 @@ const Admin = () => {
           <div className="bg-white rounded-xl shadow-lg p-6">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-bold text-gray-800">Kelola Buku</h3>
-              <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2">
-                <Plus size={20} />
-                <span>Tambah Buku</span>
-              </button>
+              <AddBookDialog onBookAdded={handleAddBook} />
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -198,7 +211,10 @@ const Admin = () => {
                           <button className="p-2 text-blue-600 hover:bg-blue-100 rounded">
                             <Eye size={16} />
                           </button>
-                          <button className="p-2 text-green-600 hover:bg-green-100 rounded">
+                          <button 
+                            onClick={() => handleEditBook(book)}
+                            className="p-2 text-green-600 hover:bg-green-100 rounded"
+                          >
                             <Edit size={16} />
                           </button>
                           <button className="p-2 text-red-600 hover:bg-red-100 rounded">
@@ -327,6 +343,13 @@ const Admin = () => {
           open={editDialogOpen}
           onOpenChange={setEditDialogOpen}
           onUserUpdated={handleUpdateUser}
+        />
+
+        <EditBookDialog
+          book={editingBook}
+          open={editBookDialogOpen}
+          onOpenChange={setEditBookDialogOpen}
+          onBookUpdated={handleUpdateBook}
         />
       </div>
     </div>
