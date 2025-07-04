@@ -2,9 +2,13 @@
 import { useState } from "react";
 import { Book, Users, ShoppingBag, Plus, Edit, Trash2, Eye } from "lucide-react";
 import Header from "@/components/Header";
+import AddUserDialog from "@/components/AddUserDialog";
+import EditUserDialog from "@/components/EditUserDialog";
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [editingUser, setEditingUser] = useState(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
   
   // Sample data
   const stats = {
@@ -20,11 +24,11 @@ const Admin = () => {
     { id: 3, title: "Sapiens", author: "Yuval Noah Harari", category: "History", price: 200000, stock: 8 }
   ];
 
-  const users = [
+  const [users, setUsers] = useState([
     { id: 1, name: "John Doe", email: "john@example.com", registeredAt: "2024-01-15", status: "Active" },
     { id: 2, name: "Jane Smith", email: "jane@example.com", registeredAt: "2024-01-20", status: "Active" },
     { id: 3, name: "Bob Johnson", email: "bob@example.com", registeredAt: "2024-01-25", status: "Inactive" }
-  ];
+  ]);
 
   const orders = [
     { id: 1, user: "John Doe", books: "The Great Gatsby, Sapiens", total: 325000, status: "Pending", date: "2024-01-30" },
@@ -38,6 +42,19 @@ const Admin = () => {
       currency: 'IDR',
       minimumFractionDigits: 0
     }).format(price);
+  };
+
+  const handleAddUser = (newUser: any) => {
+    setUsers([...users, newUser]);
+  };
+
+  const handleEditUser = (user: any) => {
+    setEditingUser(user);
+    setEditDialogOpen(true);
+  };
+
+  const handleUpdateUser = (updatedUser: any) => {
+    setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
   };
 
   return (
@@ -200,7 +217,10 @@ const Admin = () => {
         {/* Users Tab */}
         {activeTab === "users" && (
           <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-xl font-bold text-gray-800 mb-6">Daftar Pengguna</h3>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold text-gray-800">Daftar Pengguna</h3>
+              <AddUserDialog onUserAdded={handleAddUser} />
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -232,7 +252,10 @@ const Admin = () => {
                           <button className="p-2 text-blue-600 hover:bg-blue-100 rounded">
                             <Eye size={16} />
                           </button>
-                          <button className="p-2 text-green-600 hover:bg-green-100 rounded">
+                          <button 
+                            onClick={() => handleEditUser(user)}
+                            className="p-2 text-green-600 hover:bg-green-100 rounded"
+                          >
                             <Edit size={16} />
                           </button>
                         </div>
@@ -298,6 +321,13 @@ const Admin = () => {
             </div>
           </div>
         )}
+
+        <EditUserDialog
+          user={editingUser}
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          onUserUpdated={handleUpdateUser}
+        />
       </div>
     </div>
   );
